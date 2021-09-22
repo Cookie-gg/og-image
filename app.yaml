@@ -1,0 +1,5 @@
+env: standard
+
+runtime: nodejs14
+
+entrypoint: npm run start:prod

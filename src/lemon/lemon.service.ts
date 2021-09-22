@@ -24,8 +24,7 @@ export class LemonService {
     ctx.fillStyle = '#1F1F1F';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(title, 600, Number(process.env.IMAGE_Y));
-
+    ctx.fillText(title, 600, process.env.PORT ? 402.5 : 385);
     const buffer = canvas.toBuffer();
     const dataURL = canvas.toDataURL();
     return { buffer, dataURL };
