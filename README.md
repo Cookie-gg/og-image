@@ -4,8 +4,6 @@
 
 # og-image
 
-## description
-
 generate ogp-image (ogp 画像生成)
 
 ## pages
