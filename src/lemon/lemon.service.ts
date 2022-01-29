@@ -56,8 +56,16 @@ export class LemonService {
     const linedText: string[] = [];
     for (let i = 0; i < title.length; i++) {
       if (ctx.measureText(`${refer}${title[i]}`).width > 650) {
-        linedText.push(refer);
-        refer = '';
+        if (
+          title[i].match(
+            /\u3041|\u3043|\u3045|\u3047|\u3039|\u3063|\u3083|\u3085|\u3087|\u308E|\u3095|\u3096|\u30A1|\u30A3|\u30A5|\u30A7|\u30A9|\u30C3|\u30E3|\u30E5|\u30E7|\u30EE|\u30F5|\u30F6/,
+          )
+        ) {
+          linedText.push(refer + title[i]);
+          refer = '';
+        } else {
+          refer = title[i];
+        }
       } else if (i === title.length - 1) linedText.push(`${refer}${title[i]}`);
       else refer += title[i];
     }
