@@ -22,7 +22,7 @@ export class LemonService {
     ctx.fillStyle = '#1F1F1F';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(title, 600, process.env.PORT ? 402.5 : 385);
+    ctx.fillText(title, 600, 402.5);
     const buffer = canvas.toBuffer();
     const base64 = canvas.toDataURL();
     return { buffer, base64 };
