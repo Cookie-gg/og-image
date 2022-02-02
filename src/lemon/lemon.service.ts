@@ -3,7 +3,7 @@ import { createCanvas, loadImage, registerFont } from 'canvas';
 
 @Injectable()
 export class LemonService {
-  async page(title: string): Promise<{ buffer: Buffer; dataURL: string }> {
+  async page(title: string): Promise<{ buffer: Buffer; base64: string }> {
     const WIDTH = 1200 as const;
     const HEIGHT = 630 as const;
     const DX = 0 as const;
@@ -11,9 +11,7 @@ export class LemonService {
     const canvas = createCanvas(WIDTH, HEIGHT);
     const ctx = canvas.getContext('2d');
 
-    const backgroundImage = await loadImage(
-      `${process.cwd()}/public/page-background.png`,
-    );
+    const backgroundImage = await loadImage(`${process.cwd()}/public/page-background.png`);
     ctx.drawImage(backgroundImage, DX, DY, WIDTH, HEIGHT);
     registerFont(`${process.cwd()}/public/JosefinSans-BoldItalic.ttf`, {
       family: 'Josefin Sans',
@@ -26,11 +24,11 @@ export class LemonService {
     ctx.textBaseline = 'middle';
     ctx.fillText(title, 600, process.env.PORT ? 402.5 : 385);
     const buffer = canvas.toBuffer();
-    const dataURL = canvas.toDataURL();
-    return { buffer, dataURL };
+    const base64 = canvas.toDataURL();
+    return { buffer, base64 };
   }
 
-  async article(title: string): Promise<{ buffer: Buffer; dataURL: string }> {
+  async article(title: string): Promise<{ buffer: Buffer; base64: string }> {
     const WIDTH = 1200 as const;
     const HEIGHT = 630 as const;
     const DX = 0 as const;
@@ -38,9 +36,7 @@ export class LemonService {
     const canvas = createCanvas(WIDTH, HEIGHT);
     const ctx = canvas.getContext('2d');
 
-    const backgroundImage = await loadImage(
-      `${process.cwd()}/public/article-background.png`,
-    );
+    const backgroundImage = await loadImage(`${process.cwd()}/public/article-background.png`);
     ctx.drawImage(backgroundImage, DX, DY, WIDTH, HEIGHT);
     registerFont(`${process.cwd()}/public/NotoSansJP-Bold.otf`, {
       family: 'Noto Sans JP',
@@ -73,7 +69,7 @@ export class LemonService {
     ctx.fillText(linedText.join('\n'), 150, 315 - 25 * linedText.length);
 
     const buffer = canvas.toBuffer();
-    const dataURL = canvas.toDataURL();
-    return { buffer, dataURL };
+    const base64 = canvas.toDataURL();
+    return { buffer, base64 };
   }
 }

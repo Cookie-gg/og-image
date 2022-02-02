@@ -1,39 +1,26 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { LemonService } from './lemon.service';
-import { Controller, Get, Header, HttpCode, Param, Res } from '@nestjs/common';
+import { Controller, Get, Header, HttpCode, Param, Query, Req, Res } from '@nestjs/common';
 
 @Controller('lemon')
 export class LemonController {
   constructor(private readonly lemonService: LemonService) {}
 
-  @Get('/page/:title')
+  @Get('/*/:title')
   @HttpCode(200)
   @Header('Content-Type', 'image/png')
-  async displayOgPage(@Param('title') title: string, @Res() res: Response) {
-    const data = await this.lemonService.page(title);
-    res.set('Content-Length', `${data.buffer.length}`);
-    return res.send(data.buffer);
-  }
-
-  @Get('/article/:title')
-  @HttpCode(200)
-  @Header('Content-Type', 'image/png')
-  async displayoOgArticle(@Param('title') title: string, @Res() res: Response) {
-    const data = await this.lemonService.article(title);
-    res.set('Content-Length', `${data.buffer.length}`);
-    return res.send(data.buffer);
-  }
-
-  @Get('/page/:title/data')
-  @HttpCode(200)
-  async OgPage(@Param('title') title: string, @Res() res: Response) {
-    const data = await this.lemonService.page(title);
-    return res.end(data.dataURL);
-  }
-  @Get('/article/:title/data')
-  @HttpCode(200)
-  async OgArticle(@Param('title') title: string, @Res() res: Response) {
-    const data = await this.lemonService.article(title);
-    return res.send(data.dataURL);
+  async displayOgPage(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param('title') title: string,
+    @Query('base64') base64?: boolean,
+  ) {
+    const data = await this.lemonService[req.path.split('/')[2]](title);
+    if (base64) {
+      return res.end(data.base64);
+    } else {
+      res.set('Content-Length', `${data.buffer.length}`);
+      return res.send(data.buffer);
+    }
   }
 }
